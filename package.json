@@ -1,0 +1,29 @@
+{
+  "name": "RpuebaRedux",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.2.1",
+    "@material-ui/icons": "^4.2.1",
+    "bootstrap": "^3.4.1",
+    "react": "^16.8.6",
+    "react-bootstrap": "^0.31.5",
+    "react-dom": "^16.8.6",
+    "react-redux": "^5.1.1",
+    "react-router-bootstrap": "^0.24.4",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^5.0.0-alpha.8",
+    "react-scripts": "1.0.17",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.3.0",
+    "rimraf": "^2.6.3",
+    "superagent": "^5.1.0",
+    "xmlbuilder": "^13.0.2"
+  },
+  "scripts": {
+    "start": "rimraf ./build && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
