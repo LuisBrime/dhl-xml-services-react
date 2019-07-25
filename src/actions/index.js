@@ -214,3 +214,72 @@ export function createWaybill() {
             });
     }
 }
+
+export const REQUEST_ROUTING = 'REQUEST_ROUTING';
+export const RECEIVE_ROUTING = 'RECEIVE_ROUTING';
+export const ERROR_ROUTING = 'ERROR_ROUTING';
+
+function requestRouting() {
+    return { type: REQUEST_ROUTING };
+}
+
+function receiveRouting(payload) {
+    return { type: RECEIVE_ROUTING, payload };
+}
+
+function errorRouting(error) {
+    return { type: ERROR_ROUTING, error };
+}
+
+export function routing(payload) {
+    return function (dispatch) {
+        dispatch(requestRouting());
+
+        var xml = builder.create('ns1:RouteRequest', { encoding: 'utf-8' })
+            .att('xmlns:ns1', 'http://www.dhl.com')
+            .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+            .att('schemaVersion', '5.0')
+            .att('xsi:schemaLocation', 'http://www.dhl.com routing-global-req.xsd')
+            .att('schemaVersion', '1.0')
+            .ele('Request')
+            .ele('ServiceHeader')
+            .ele('MessageTime', '2001-12-17T09:30:47-05:00').up()
+            .ele('MessageReference', '1234567890123456789012345678901').up()
+            .ele('SiteID', 'DServiceVal').up()
+            .ele('Password', 'testServVal').up()
+            .up()
+            .up()
+            .ele('RegionCode', payload.region).up()
+            .ele('RequestType', payload.type).up()
+            .ele('Address1', payload.address1).up()
+            .ele('Address2', payload.address2).up()
+            .ele('PostalCode', payload.postalCode).up()
+            .ele('City', payload.city).up()
+            .ele('Division', payload.division).up()
+            .ele('CountryCode', payload.country).up()
+            .ele('CountryName', payload.countryName).up()
+            .ele('OriginCountryCode', payload.origin).up()
+            .end({ pretty: true });
+        console.log(xml);
+        
+        request.post(proxyurl + url)
+            .set('Content-Type', 'application/xml')
+            .send(xml)
+            .then(response => {
+                var parser = new DOMParser();
+                var dox = parser.parseFromString(response.text, 'application/xml');
+                console.log(dox);
+
+                let serviceArea = dox.getElementsByTagName('ServiceArea')[0];
+                const payload = {
+                    code: serviceArea.getElementsByTagName('ServiceAreaCode')[0].childNodes[0].nodeValue,
+                    desc: serviceArea.getElementsByTagName('Description')[0].childNodes[0].nodeValue
+                };
+                dispatch(receiveRouting(payload));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(errorRouting(error));
+            });
+    }
+}

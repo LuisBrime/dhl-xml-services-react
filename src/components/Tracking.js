@@ -86,7 +86,6 @@ class Tracking extends Component {
                                 onChange={this.handleChange}
                                 label="Waybill"
                                 className={classes.textField}
-                                color="secondary"
                             />
                         </Grid>
                         <Grid item xs={2}>

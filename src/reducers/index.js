@@ -5,7 +5,10 @@ import {
     ERROR_SEARCH_WAYBILL,
     REQUEST_CREATE_WAYBILL,
     RECEIVE_CREATE_WAYBILL,
-    ERROR_CREATE_WAYBILL
+    ERROR_CREATE_WAYBILL,
+    REQUEST_ROUTING,
+    RECEIVE_ROUTING,
+    ERROR_ROUTING
 } from '../actions';
 
 function waybill(state = {
@@ -81,4 +84,39 @@ function validation(state = {
     }
 }
 
-export default combineReducers({ waybill, validation });
+function routing(state = {
+    code: undefined,
+    desc: undefined,
+    searching: false,
+    done: false,
+    stopped: false,
+    error: undefined
+}, action) {
+    switch (action.type) {
+        case REQUEST_ROUTING:
+            return Object.assign({}, state, {
+                searching: true,
+                done: false,
+                stopped: false
+            });
+        case RECEIVE_ROUTING:
+            return Object.assign({}, state, {
+                code: action.payload.code,
+                desc: action.payload.desc,
+                searching: false,
+                done: true,
+                stopped: false
+            });
+        case ERROR_ROUTING:
+            return Object.assign({}, state, {
+                error: action.error,
+                searching: false,
+                done: false,
+                stopped: true
+            });
+        default:
+            return state;
+    }
+}
+
+export default combineReducers({ waybill, validation, routing });

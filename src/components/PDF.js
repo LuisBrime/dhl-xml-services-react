@@ -38,7 +38,7 @@ class PDF extends Component {
                     <Typography className={classes.title} align="left" variant="body1" color="secondary">{guia}</Typography>
                     <Grid container direction="column" alignItems="center" spacing={10}>
                         <Grid item xs={12}>
-                            <object className={classes.pdf} type="application/pdf" data={`data:application/pdf;base64,${pdf}`} />
+                            <object aria-label="PDF" className={classes.pdf} type="application/pdf" data={`data:application/pdf;base64,${pdf}`} />
                         </Grid>
                     </Grid>
                 </CardContent>

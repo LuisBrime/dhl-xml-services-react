@@ -11,6 +11,8 @@ import withRoot from '../withRoot';
 
 import Tracking from './Tracking';
 import Validation from './Validation';
+import Pickup from './Pickup';
+import Routing from './Routing';
 
 const styles = theme => ({
     root: {
@@ -83,6 +85,12 @@ class Main extends Component {
                         </TabPanel>
                         <TabPanel value={tabValue} index={1}>
                             <Validation />
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={2}>
+                            <Pickup />
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={3}>
+                            <Routing />
                         </TabPanel>
                     </AppBar>
                 </Grid>
