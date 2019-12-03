@@ -96,7 +96,7 @@ class Tracking extends Component {
                     <Grid container direction="column" justify="center" alignItems="center" spacing={10}>
                         {searching && <CircularProgress className={classes.progress} />}
                         {done && Array.isArray(checkpoints) && checkpoints.map((c, index) => (
-                            <Checkpoint key={index} awb={c.awbNumber} shipmentDate={c.shipmentDate} originAC={c.originAC} originDesc={c.originDesc} destinationAC={c.destinationAC} destinationDesc={c.destinationDesc} shipperName={c.shipperName} shipperAN={c.shipperAN} consigneeName={c.consigneeName} />
+                            <Checkpoint key={index} events={c.events} awb={c.awbNumber} shipmentDate={c.shipmentDate} originAC={c.originAC} originDesc={c.originDesc} destinationAC={c.destinationAC} destinationDesc={c.destinationDesc} shipperName={c.shipperName} shipperAN={c.shipperAN} consigneeName={c.consigneeName} />
                         ))}
                     </Grid>
                     <Error message={"Error. AWB not found"} open={stopped} />

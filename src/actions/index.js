@@ -54,6 +54,23 @@ export function searchWaybill(waybill) {
                     const originSA = shipmentInfo.getElementsByTagName('OriginServiceArea')[0];
                     const destinationSA = shipmentInfo.getElementsByTagName('DestinationServiceArea')[0];
 
+                    const event = shipmentInfo.getElementsByTagName('ShipmentEvent');
+                    var events = [];
+                    console.log('This are the events: ', event);
+                    for (var j = 0; j < event.length; j++) {
+                        var values = {};
+                        const item = event[j];
+
+                        values.date = item.getElementsByTagName('Date')[0].childNodes[0].nodeValue;
+                        values.time = item.getElementsByTagName('Time')[0].childNodes[0].nodeValue;
+                        values.event = item.getElementsByTagName('ServiceEvent')[0].getElementsByTagName('Description')[0].childNodes[0].nodeValue;
+                        values.area = item.getElementsByTagName('ServiceArea')[0].getElementsByTagName('Description')[0].childNodes[0].nodeValue;
+
+                        console.log(values);
+                        events.push(values);
+                    }
+                    console.log('Events object: ', events);
+
                     checkpoints.push({
                         awbNumber: awbs[i].getElementsByTagName('AWBNumber')[0].childNodes[0].nodeValue,
                         shipmentDate: shipmentInfo.getElementsByTagName('ShipmentDate')[0].childNodes[0].nodeValue,
@@ -63,7 +80,8 @@ export function searchWaybill(waybill) {
                         destinationDesc: destinationSA.getElementsByTagName('Description')[0].childNodes[0].nodeValue,
                         shipperName: shipmentInfo.getElementsByTagName('ShipperName')[0].childNodes[0].nodeValue,
                         shipperAN: shipmentInfo.getElementsByTagName('ShipperAccountNumber')[0].childNodes[0].nodeValue,
-                        consigneeName: shipmentInfo.getElementsByTagName('ConsigneeName')[0].childNodes[0].nodeValue
+                        consigneeName: shipmentInfo.getElementsByTagName('ConsigneeName')[0].childNodes[0].nodeValue,
+                        events: events
                     });
                 }
                 console.log(checkpoints);
@@ -159,7 +177,7 @@ export function createWaybill() {
             .ele('WeightUnit', 'L').up()
             .ele('GlobalProductCode', 'P').up()
             .ele('LocalProductCode', 'P').up()
-            .ele('Date', '2019-07-24').up()
+            .ele('Date', '2019-12-04').up()
             .ele('Contents', 'AM international shipment contents').up()
             .ele('DoorTo', 'DD').up()
             .ele('DimensionUnit', 'I').up()
@@ -174,6 +192,9 @@ export function createWaybill() {
             .ele('RegisteredAccount', '751008818').up()
             .ele('AddressLine', '1 New Ochard Road').up()
             .ele('City', 'New York').up()
+            .ele('Division', 'ny').up()
+            .ele('DivisionCode', 'ny').up()
+            .ele('PostalCode', '10504').up()
             .ele('CountryCode', 'US').up()
             .ele('CountryName', 'United States Of America').up()
             .ele('Contact')

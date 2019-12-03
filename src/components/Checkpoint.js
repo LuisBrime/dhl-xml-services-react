@@ -4,6 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from '../withRoot';
 
@@ -31,7 +34,8 @@ class Checkpoint extends Component {
             destinationDesc,
             shipperName,
             shipperAN,
-            consigneeName
+            consigneeName,
+            events
         } = this.props;
 
         return (
@@ -50,6 +54,28 @@ class Checkpoint extends Component {
                     <Typography className={classes.title} align="center" variant="body1" color="secondary">Shipper Name: {shipperName}</Typography>
                     <Typography className={classes.title} align="center" variant="body2" color="secondary">Account Number: {shipperAN}</Typography>
                     <Typography className={classes.title} align="center" variant="body1" color="secondary">Consignee: {consigneeName}</Typography>
+                    {events.length > 0 && (
+                        <List>
+                            {events.map((e) => (
+                                <React.Fragment key={`${e.date}${e.time}`}>
+                                <ListItem>
+                                    <Grid container direction='row' spacing={3}>
+                                        <Grid item xs={4}>
+                                            <Typography align='center' variant='body2'>{e.date} – {e.time}</Typography>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <Typography align='center' variant='body2'>{e.event}</Typography>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <Typography align='center' variant='body2'>{e.area}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </ListItem>
+                                <Divider light/>
+                                </React.Fragment>
+                            ))}
+                        </List>
+                    )}
                 </CardContent>
             </Card>
         );
